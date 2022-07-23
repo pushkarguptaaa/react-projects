@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-projects/box-office/static/css/main.b2586571.css",
-    "main.js": "/react-projects/box-office/static/js/main.6047d63c.js",
+    "main.js": "/react-projects/box-office/static/js/main.141c4219.js",
     "service-worker.js": "/react-projects/box-office/service-worker.js",
     "index.html": "/react-projects/box-office/index.html",
     "main.b2586571.css.map": "/react-projects/box-office/static/css/main.b2586571.css.map",
-    "main.6047d63c.js.map": "/react-projects/box-office/static/js/main.6047d63c.js.map"
+    "main.141c4219.js.map": "/react-projects/box-office/static/js/main.141c4219.js.map"
   },
   "entrypoints": [
     "static/css/main.b2586571.css",
-    "static/js/main.6047d63c.js"
+    "static/js/main.141c4219.js"
   ]
 }
