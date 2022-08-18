@@ -7,10 +7,11 @@ import ProfileAvatar from '../../dashboard/ProfileAvatar';
 import PresenceDot from '../../PresenceDot';
 import ProfileInfoBtnModal from './ProfileInfoBtnModal';
 import IconBtnControl from './IconBtnControl';
-import { useMediaQuery } from '../../../misc/custom-hooks';
+import { useHover, useMediaQuery } from '../../../misc/custom-hooks';
 
 const MessageItem = ({ message, handleAdmin, handleLike }) => {
   const { author, createdAt, text, likes, likeCount } = message;
+  const [selfRef, isHovered] = useHover();
   const isMobile = useMediaQuery('(max-width: 992px)');
   const isAdmin = useCurrentRoom(v => v.isAdmin);
   const admins = useCurrentRoom(v => v.admins);
@@ -19,11 +20,14 @@ const MessageItem = ({ message, handleAdmin, handleLike }) => {
   const isAuthor = auth.currentUser.uid === author.uid;
   const canGrantAdmin = isAdmin && !isAuthor;
 
-  const canShowIcons = isMobile;
+  const canShowIcons = isMobile || isHovered;
   const isLiked = likes && Object.keys(likes).includes(auth.currentUser.uid);
 
   return (
-    <li className="padded mb-1">
+    <li
+      className={`padded mb-1 cursor pointer ${isHovered ? 'bg-black-02' : ''}`}
+      ref={selfRef}
+    >
       <div className="d-flex align-items-center font-bolder mb-1">
         <PresenceDot uid={author.uid} />
         <ProfileAvatar
