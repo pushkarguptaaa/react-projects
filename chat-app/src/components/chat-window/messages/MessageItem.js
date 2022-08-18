@@ -7,15 +7,20 @@ import ProfileAvatar from '../../dashboard/ProfileAvatar';
 import PresenceDot from '../../PresenceDot';
 import ProfileInfoBtnModal from './ProfileInfoBtnModal';
 import IconBtnControl from './IconBtnControl';
+import { useMediaQuery } from '../../../misc/custom-hooks';
 
-const MessageItem = ({ message, handleAdmin }) => {
-  const { author, createdAt, text } = message;
+const MessageItem = ({ message, handleAdmin, handleLike }) => {
+  const { author, createdAt, text, likes, likeCount } = message;
+  const isMobile = useMediaQuery('(max-width: 992px)');
   const isAdmin = useCurrentRoom(v => v.isAdmin);
   const admins = useCurrentRoom(v => v.admins);
 
   const isMsgAuthorAdmin = admins.includes(author.uid);
   const isAuthor = auth.currentUser.uid === author.uid;
   const canGrantAdmin = isAdmin && !isAuthor;
+
+  const canShowIcons = isMobile;
+  const isLiked = likes && Object.keys(likes).includes(auth.currentUser.uid);
 
   return (
     <li className="padded mb-1">
@@ -33,13 +38,7 @@ const MessageItem = ({ message, handleAdmin }) => {
           className="p-0 ml-1 text-black"
         >
           {canGrantAdmin && (
-            <Button
-              block
-              onClick={() => {
-                handleAdmin(author.uid);
-              }}
-              color="blue"
-            >
+            <Button block onClick={() => handleAdmin(author.uid)} color="blue">
               {isMsgAuthorAdmin
                 ? 'Remove admin permission'
                 : 'Give admin in this room'}
@@ -51,12 +50,12 @@ const MessageItem = ({ message, handleAdmin }) => {
           className="font-normal text-black-45 ml-2"
         />
         <IconBtnControl
-          {...(true ? { color: 'red' } : {})}
-          isVisible
+          {...(isLiked ? { color: 'red' } : {})}
+          isVisible={canShowIcons}
           iconName="heart"
           tooltip="Like this message"
-          onClick={() => {}}
-          badgeContent={5}
+          onClick={() => handleLike(message.id)}
+          badgeContent={likeCount}
         />
       </div>
       <div>
